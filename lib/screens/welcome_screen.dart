@@ -8,6 +8,7 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  String moviename = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,8 +104,30 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   color: Colors.black,
                                 ),
                               ),
+                              onChanged: (value) {
+                                moviename = value;
+                              },
                             ),
+                            margin: EdgeInsets.all(0),
                           ),
+                          MaterialButton(
+                            child: Container(
+                              height: 50,
+                              width: 150,
+                              child: Center(
+                                  child: Text(
+                                'Enter',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30),
+                                ),
+                              ),
+                            ),
+                            onPressed: () {},
+                          )
                         ],
                       ),
                     ),
