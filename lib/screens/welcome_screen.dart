@@ -126,7 +126,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 ),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              getMovieData(moviename);
+                            },
                           )
                         ],
                       ),
@@ -140,4 +142,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       ),
     );
   }
+
+  void getMovieData(String moviename) {}
 }

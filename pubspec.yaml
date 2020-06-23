@@ -37,5 +37,10 @@ flutter:
        fonts:
          - asset: fonts/SourceSansPro-Bold.ttf
 
+     - family: NotoSans
+       fonts:
+          - asset: fonts/NotoSans-Bold.ttf
+          - asset: fonts/NotoSans-Regular.ttf
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
