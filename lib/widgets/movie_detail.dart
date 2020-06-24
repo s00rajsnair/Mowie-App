@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mowie/utilities/consants.dart';
+import 'package:mowie/utilities/constants.dart';
 
 class MovieDetailWidget extends StatelessWidget {
   final String movieDetail;

@@ -15,7 +15,7 @@ class MowieApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
-      initialRoute: MovieScreen.id,
+      initialRoute: WelcomeScreen.id,
       routes: {
         WelcomeScreen.id: (context) => WelcomeScreen(),
         MovieScreen.id: (context) => MovieScreen(),

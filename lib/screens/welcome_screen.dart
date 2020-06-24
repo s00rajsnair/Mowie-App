@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:mowie/screens/movie_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String id = "welcome_screen.dart";
@@ -126,8 +130,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 ),
                               ),
                             ),
-                            onPressed: () {
-                              getMovieData(moviename);
+                            onPressed: () async {
+                              var newMovieData = await getMovieData(moviename);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MovieScreen(
+                                    movieData: newMovieData,
+                                  ),
+                                ),
+                              );
                             },
                           )
                         ],
@@ -143,5 +155,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
   }
 
-  void getMovieData(String moviename) {}
+  Future getMovieData(String moviename) async {
+    try {
+      String url = 'http://www.omdbapi.com/?apikey=be44b129&t=$moviename';
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+//        for (int i = 0; i < 3; i++) {
+//          try {
+//            print(map.containsKey(['Ratings'][i][0]));
+//          } catch (e) {
+//            print('false$i');
+//          }
+//        }
+        return jsonDecode(response.body);
+      }
+//    print(response.statusCode.toString());
+//    print(response.body.toString());
+    } catch (e) {
+      print(e);
+    }
+  }
 }

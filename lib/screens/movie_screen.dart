@@ -1,18 +1,44 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mowie/utilities/consants.dart';
+import 'package:mowie/utilities/constants.dart';
 import 'package:mowie/widgets/movie_detail.dart';
+import 'package:mowie/widgets/review_cards.dart';
 
-class MovieScreen extends StatefulWidget {
-  static String id = "movie_screen";
+class MovieScreen extends StatelessWidget {
+  static final String id = "movie_screen";
+  final movieData;
+  List<dynamic> reviewValues;
+  bool gotImdbReview = false;
+  bool gotRottenTomatoesReview = false;
+  bool gotMetaCriticReview = false;
+  String imbdValue;
+  String rottenTomatoesValue;
+  String metaCriticValue;
 
-  @override
-  _MovieScreenState createState() => _MovieScreenState();
-}
+  MovieScreen({this.movieData});
 
-class _MovieScreenState extends State<MovieScreen> {
+  void checkWhetherReviewsExist() {
+    reviewValues = movieData['Ratings'];
+    print(reviewValues.length);
+    for (int i = 0; i < reviewValues.length; i++) {
+      if (reviewValues[i]['Source'] == 'Internet Movie Database') {
+        gotImdbReview = true;
+        imbdValue = reviewValues[i]['Value'];
+      } else if (reviewValues[i]['Source'] == 'Rotten Tomatoes') {
+        gotRottenTomatoesReview = true;
+        rottenTomatoesValue = reviewValues[i]['Value'];
+      } else if (reviewValues[i]['Source'] == 'Metacritic') {
+        gotMetaCriticReview = true;
+        metaCriticValue = reviewValues[i]['Value'];
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    checkWhetherReviewsExist();
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -22,7 +48,8 @@ class _MovieScreenState extends State<MovieScreen> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
-                        'https://i.pinimg.com/564x/92/c8/e0/92c8e00b34fcfdeaf605a0647c21adb3.jpg'),
+                      '${movieData['Poster']}',
+                    ),
                     fit: BoxFit.cover,
                     colorFilter: ColorFilter.mode(
                         Colors.black.withOpacity(0.5), BlendMode.darken),
@@ -52,7 +79,6 @@ class _MovieScreenState extends State<MovieScreen> {
                 ),
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -62,31 +88,75 @@ class _MovieScreenState extends State<MovieScreen> {
                       ),
                     ),
                     child: Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                      child: ListView(
                         children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                '${movieData['Title']}',
+                                style: kMovieNameStyle,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: MovieDetailWidget(
+                                  detailIcon: Icons.scatter_plot,
+                                  movieDetail: '${movieData['Genre']}',
+                                ),
+                              ),
+                              MovieDetailWidget(
+                                detailIcon: Icons.access_time,
+                                movieDetail: '${movieData['Runtime']}',
+                              ),
+                              MovieDetailWidget(
+                                detailIcon: Icons.calendar_today,
+                                movieDetail: '${movieData['Released']}',
+                              ),
+                              MovieDetailWidget(
+                                detailIcon: Icons.language,
+                                movieDetail: '${movieData['Language']}',
+                              ),
+                              MovieDetailWidget(
+                                detailIcon: Icons.videocam,
+                                movieDetail: '${movieData['Director']}',
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                            ],
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(bottom: 20),
+                            height: 170,
+                            child: ListView(
+                              padding: EdgeInsets.only(bottom: 20),
+                              scrollDirection: Axis.horizontal,
+                              physics: ClampingScrollPhysics(),
+                              children: <Widget>[
+                                IMDbReviewCard(
+                                  tobeVisible: gotImdbReview,
+                                  reviewData: '$imbdValue',
+                                ),
+                                RottenTomatoesReviewCard(
+                                  tobeVisible: gotRottenTomatoesReview,
+                                  reviewData: '$rottenTomatoesValue',
+                                ),
+                                MetaCriticReviewCard(
+                                  tobeVisible: gotMetaCriticReview,
+                                  reviewData: '$metaCriticValue',
+                                ),
+                              ],
+                            ),
+                          ),
                           Text(
-                            'Avengers: Endgame',
-                            style: kMovieNameStyle,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          MovieDetailWidget(
-                            detailIcon: Icons.scatter_plot,
-                            movieDetail: 'Action, Adventure, Drama, Sci-Fi',
-                          ),
-                          MovieDetailWidget(
-                            detailIcon: Icons.access_time,
-                            movieDetail: '181 min',
-                          ),
-                          MovieDetailWidget(
-                            detailIcon: Icons.calendar_today,
-                            movieDetail: '26 Apr 2019',
-                          ),
-                          MovieDetailWidget(
-                            detailIcon: Icons.language,
-                            movieDetail: 'English, Japanese, Xhosa, German',
+                            "${movieData['Plot']}",
+                            style: kMoviePlotStyle,
+                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),
