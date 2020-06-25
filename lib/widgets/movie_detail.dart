@@ -7,24 +7,27 @@ class MovieDetailWidget extends StatelessWidget {
   MovieDetailWidget({@required this.detailIcon, @required this.movieDetail});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: <Widget>[
-          Icon(
-            detailIcon,
-            size: 20,
-            color: Colors.redAccent,
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          Text(
-            '$movieDetail',
-            style: kMovieDetailsStyle,
-          ),
-        ],
+    return Visibility(
+      visible: (movieDetail != 'N/A') ? true : false,
+      child: Container(
+        child: Row(
+          children: <Widget>[
+            Icon(
+              detailIcon,
+              size: 20,
+              color: Colors.redAccent,
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Text(
+              '$movieDetail',
+              style: kMovieDetailsStyle,
+            ),
+          ],
+        ),
+        padding: EdgeInsets.only(bottom: 10),
       ),
-      padding: EdgeInsets.only(bottom: 10),
     );
   }
 }

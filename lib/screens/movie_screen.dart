@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mowie/screens/poster_screen.dart';
 import 'package:mowie/utilities/constants.dart';
 import 'package:mowie/widgets/movie_detail.dart';
 import 'package:mowie/widgets/review_cards.dart';
@@ -40,19 +39,37 @@ class MovieScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     checkWhetherReviewsExist();
     return Scaffold(
+      backgroundColor: Colors.grey,
       body: SafeArea(
         child: Stack(
           children: <Widget>[
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      '${movieData['Poster']}',
+              child: FlatButton(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onPressed: () {
+                  if (movieData['Poster'] != 'N/A') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PosterScreen(
+                          posterUrl: '${movieData['Poster']}',
+                        ),
+                      ),
+                    );
+                  }
+                },
+                padding: EdgeInsets.all(0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        '${movieData['Poster']}',
+                      ),
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                          Colors.black.withOpacity(0.5), BlendMode.darken),
                     ),
-                    fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(
-                        Colors.black.withOpacity(0.5), BlendMode.darken),
                   ),
                 ),
               ),
@@ -64,13 +81,26 @@ class MovieScreen extends StatelessWidget {
                   height: 150,
                   child: Center(
                     child: MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (movieData['Poster'] != 'N/A') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PosterScreen(
+                                posterUrl: '${movieData['Poster']}',
+                              ),
+                            ),
+                          );
+                        }
+                      },
                       child: Text(
-                        'Tap to view',
+                        (movieData['Poster'] != 'N/A')
+                            ? 'Tap to view'
+                            : 'Sorry, no poster found',
                         style: TextStyle(
                           color: Colors.white,
-                          fontFamily: 'NotoSans',
-                          fontSize: 20,
+                          fontFamily: 'SourceSansPro',
+                          fontSize: 15,
                           fontWeight: FontWeight.w100,
                         ),
                       ),
@@ -125,38 +155,62 @@ class MovieScreen extends StatelessWidget {
                                 detailIcon: Icons.videocam,
                                 movieDetail: '${movieData['Director']}',
                               ),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: MovieDetailWidget(
+                                  detailIcon: Icons.person_outline,
+                                  movieDetail: '${movieData['Actors']}',
+                                ),
+                              ),
                               SizedBox(
                                 height: 30,
                               ),
                             ],
                           ),
-                          Container(
-                            padding: EdgeInsets.only(bottom: 20),
-                            height: 170,
-                            child: ListView(
+                          Visibility(
+                            visible: gotMetaCriticReview ||
+                                gotRottenTomatoesReview ||
+                                gotImdbReview,
+                            child: Container(
                               padding: EdgeInsets.only(bottom: 20),
-                              scrollDirection: Axis.horizontal,
-                              physics: ClampingScrollPhysics(),
-                              children: <Widget>[
-                                IMDbReviewCard(
-                                  tobeVisible: gotImdbReview,
-                                  reviewData: '$imbdValue',
-                                ),
-                                RottenTomatoesReviewCard(
-                                  tobeVisible: gotRottenTomatoesReview,
-                                  reviewData: '$rottenTomatoesValue',
-                                ),
-                                MetaCriticReviewCard(
-                                  tobeVisible: gotMetaCriticReview,
-                                  reviewData: '$metaCriticValue',
-                                ),
-                              ],
+                              height: 180,
+                              child: ListView(
+                                padding: EdgeInsets.only(bottom: 20),
+                                scrollDirection: Axis.horizontal,
+                                children: <Widget>[
+                                  ReviewCard(
+                                    reviewCompany: 'imdb',
+                                    tobeVisible: gotImdbReview,
+                                    reviewData: '$imbdValue',
+                                    backgroundColor1: Color(0xFFF6C800),
+                                    backgroundColor2: Color(0xFFF6C900),
+                                  ),
+                                  ReviewCard(
+                                    reviewCompany: 'rottentomatoes',
+                                    tobeVisible: gotRottenTomatoesReview,
+                                    reviewData: '$rottenTomatoesValue',
+                                    backgroundColor1: Colors.redAccent,
+                                    backgroundColor2: Colors.red,
+                                  ),
+                                  ReviewCard(
+                                    reviewCompany: 'metacritic',
+                                    tobeVisible: gotMetaCriticReview,
+                                    reviewData: '$metaCriticValue',
+                                    backgroundColor1: Colors.black38,
+                                    backgroundColor2: Colors.black,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          Text(
-                            "${movieData['Plot']}",
-                            style: kMoviePlotStyle,
-                            textAlign: TextAlign.center,
+                          Visibility(
+                            visible:
+                                (movieData['Plot'] != 'N/A') ? true : false,
+                            child: Text(
+                              "${movieData['Plot']}",
+                              style: kMoviePlotStyle,
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ],
                       ),

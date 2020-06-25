@@ -119,10 +119,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               height: 50,
                               width: 150,
                               child: Center(
-                                  child: Text(
-                                'Enter',
-                                style: TextStyle(color: Colors.white),
-                              )),
+                                child: Text(
+                                  'Enter',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.black,
                                 borderRadius: BorderRadius.all(
