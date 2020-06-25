@@ -144,12 +144,15 @@ class MovieScreen extends StatelessWidget {
                                 movieDetail: '${movieData['Runtime']}',
                               ),
                               MovieDetailWidget(
-                                detailIcon: Icons.calendar_today,
+                                detailIcon: Icons.date_range,
                                 movieDetail: '${movieData['Released']}',
                               ),
-                              MovieDetailWidget(
-                                detailIcon: Icons.language,
-                                movieDetail: '${movieData['Language']}',
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: MovieDetailWidget(
+                                  detailIcon: Icons.language,
+                                  movieDetail: '${movieData['Language']}',
+                                ),
                               ),
                               MovieDetailWidget(
                                 detailIcon: Icons.videocam,
@@ -182,15 +185,15 @@ class MovieScreen extends StatelessWidget {
                                     reviewCompany: 'imdb',
                                     tobeVisible: gotImdbReview,
                                     reviewData: '$imbdValue',
-                                    backgroundColor1: Color(0xFFfff3bd),
+                                    backgroundColor1: Colors.yellow,
                                     backgroundColor2: Color(0xFFF6C800),
                                   ),
                                   ReviewCard(
                                     reviewCompany: 'rottentomatoes',
                                     tobeVisible: gotRottenTomatoesReview,
                                     reviewData: '$rottenTomatoesValue',
-                                    backgroundColor1: Color(0xFFff7e63),
-                                    backgroundColor2: Color(0xFFF23108),
+                                    backgroundColor1: Colors.pinkAccent,
+                                    backgroundColor2: Colors.red,
                                   ),
                                   ReviewCard(
                                     reviewCompany: 'metacritic',
@@ -211,6 +214,12 @@ class MovieScreen extends StatelessWidget {
                               style: kMoviePlotStyle,
                               textAlign: TextAlign.center,
                             ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Divider(
+                            thickness: 1,
                           ),
                         ],
                       ),
