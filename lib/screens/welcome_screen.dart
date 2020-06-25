@@ -16,6 +16,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -47,7 +48,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                   ),
                   Positioned(
-                    top: 250,
+                    top: 260,
                     child: Container(
                       child: Column(
                         children: <Widget>[
@@ -73,7 +74,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             height: 10,
                           ),
                           Container(
-                            height: 100,
+                            height: 70,
                             width: 300,
                             child: TextField(
                               enabled: true,
@@ -83,7 +84,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(100.0)),
                                   borderSide: BorderSide(
-                                      color: Colors.black54, width: 1),
+                                    color: Colors.black54,
+                                    width: 1,
+                                  ),
                                 ),
                                 disabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
@@ -95,9 +98,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     Radius.circular(100.0),
                                   ),
                                 ),
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 0),
-                                hintText: 'Enter a movie name',
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 0),
+                                hintText: 'Enter a movie name ...',
                                 hintStyle: TextStyle(
                                   color: Colors.black38,
                                 ),
@@ -112,12 +115,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 moviename = value;
                               },
                             ),
-                            margin: EdgeInsets.all(0),
+//                            margin: EdgeInsets.all(0),
                           ),
                           MaterialButton(
                             child: Container(
                               height: 50,
-                              width: 150,
+                              width: 140,
                               child: Center(
                                 child: Text(
                                   'Enter',

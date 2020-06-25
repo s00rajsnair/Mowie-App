@@ -27,11 +27,13 @@ class ReviewCard extends StatelessWidget {
             Radius.circular(20),
           ),
           gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             colors: [backgroundColor1, backgroundColor2],
           ),
           boxShadow: [
             BoxShadow(
-              color: backgroundColor1.withOpacity(.5),
+              color: Colors.black.withOpacity(.15),
               blurRadius: 5,
               offset: Offset(0, 2), // changes position of shadow
             ),
@@ -49,7 +51,13 @@ class ReviewCard extends StatelessWidget {
             ),
             Text(
               '$reviewData',
-              style: kMovieReviewDataStyle,
+              style: kMovieReviewDataStyle.copyWith(
+                color: (reviewCompany == 'imdb')
+                    ? Colors.black
+                    : (reviewCompany == 'rottentomatoes')
+                        ? Colors.white
+                        : Color(0xFFFFCC34),
+              ),
             ),
           ],
         ),
