@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
 import 'package:mowie/screens/movie_screen.dart';
+import 'package:mowie/utilities/constants.dart';
+import 'package:mowie/utilities/fetch-moviedata.dart';
+import 'package:mowie/utilities/network-connection.dart';
+import 'package:mowie/widgets/snackbar.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String id = "welcome_screen.dart";
@@ -13,129 +14,99 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   String moviename = '';
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Stack(
-          children: <Widget>[
-            Expanded(
-              child: Stack(
-                alignment: AlignmentDirectional.center,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        Color(0xFFFF9966),
-                        Color(0xFFFF5E62),
-                      ], stops: [
-                        .3,
-                        1
-                      ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                    ),
+      body: Stack(
+        alignment: AlignmentDirectional.center,
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+                Color(0xFFFF9966),
+                Color(0xFFFF5E62),
+              ], stops: [
+                .3,
+                1
+              ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.1), BlendMode.dstIn),
+                image: AssetImage(
+                  'images/doodle.png',
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 250,
+            child: Column(
+              children: <Widget>[
+                Text(
+                  'mowie',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'SourceSansPro',
+                    shadows: [
+                      Shadow(
+                        offset: Offset(2, 2),
+                        blurRadius: 5.0,
+                        color: Color.fromARGB(50, 0, 0, 0),
+                      ),
+                    ],
                   ),
-                  Container(
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  width: 300,
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: TextField(
+                    enabled: true,
+                    autofocus: true,
+                    decoration: kInputFieldDecoration,
+                    onChanged: (value) {
+                      moviename = value;
+                    },
+                  ),
+                ),
+                MaterialButton(
+                  child: Container(
+                    height: 50,
+                    width: 140,
+                    child: Center(
+                      child: Text(
+                        'Enter',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                     decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.1), BlendMode.dstIn),
-                        image: AssetImage(
-                          'images/doodle.png',
-                        ),
+                      color: Colors.black,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(30),
                       ),
                     ),
                   ),
-                  Positioned(
-                    top: 260,
-                    child: Container(
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            child: Text(
-                              'mowie',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'SourceSansPro',
-                                shadows: [
-                                  Shadow(
-                                    offset: Offset(0, 1),
-                                    blurRadius: 5.0,
-                                    color: Color.fromARGB(50, 0, 0, 0),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: 70,
-                            width: 300,
-                            child: TextField(
-                              enabled: true,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(100.0)),
-                                  borderSide: BorderSide(
-                                    color: Colors.black54,
-                                    width: 1,
-                                  ),
-                                ),
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(100.0),
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(100.0),
-                                  ),
-                                ),
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 0),
-                                hintText: 'Enter a movie name ...',
-                                hintStyle: TextStyle(
-                                  color: Colors.black38,
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                prefixIcon: Icon(
-                                  Icons.search,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              onChanged: (value) {
-                                moviename = value;
-                              },
-                            ),
-//                            margin: EdgeInsets.all(0),
-                          ),
-                          MaterialButton(
-                            child: Container(
-                              height: 50,
-                              width: 140,
-                              child: Center(
-                                child: Text(
-                                  'Enter',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(30),
-                                ),
-                              ),
-                            ),
-                            onPressed: () async {
-                              var newMovieData = await getMovieData(moviename);
+                  onPressed: (moviename != '')
+                      ? () async {
+                          bool connectedToNetwork = await isConnected();
+                          if (connectedToNetwork) {
+                            var newMovieData = await getMovieData(moviename);
+                            if (newMovieData['Response'] == 'False') {
+                              displaySnackBar(
+                                  'Movie not found', context, _scaffoldKey);
+                            } else {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -144,30 +115,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   ),
                                 ),
                               );
-                            },
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
+                            }
+                          } else {
+                            displaySnackBar(
+                                'Please check your internet connection',
+                                context,
+                                _scaffoldKey);
+                          }
+                        }
+                      : null,
+                )
+              ],
             ),
-          ],
-        ),
+          )
+        ],
       ),
     );
-  }
-
-  Future getMovieData(String moviename) async {
-    try {
-      String url = 'http://www.omdbapi.com/?apikey=be44b129&t=$moviename';
-      var response = await http.get(url);
-      if (response.statusCode == 200) {
-        return jsonDecode(response.body);
-      }
-    } catch (e) {
-      print(e);
-    }
   }
 }

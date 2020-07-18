@@ -154,9 +154,12 @@ class MovieScreen extends StatelessWidget {
                                   movieDetail: '${movieData['Language']}',
                                 ),
                               ),
-                              MovieDetailWidget(
-                                detailIcon: Icons.videocam,
-                                movieDetail: '${movieData['Director']}',
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: MovieDetailWidget(
+                                  detailIcon: Icons.videocam,
+                                  movieDetail: '${movieData['Director']}',
+                                ),
                               ),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,

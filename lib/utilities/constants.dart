@@ -20,3 +20,28 @@ const kMovieReviewDataStyle = TextStyle(
   fontSize: 25,
   fontWeight: FontWeight.bold,
 );
+
+const kInputFieldDecoration = InputDecoration(
+  focusedBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.all(
+      Radius.circular(100.0),
+    ),
+    borderSide: BorderSide(
+      color: Colors.black,
+    ),
+  ),
+  contentPadding: EdgeInsets.symmetric(
+    vertical: 0,
+  ),
+  hintText: 'Enter a movie name ...',
+  hintStyle: TextStyle(
+    color: Colors.black38,
+    fontSize: 15,
+  ),
+  filled: true,
+  fillColor: Colors.white,
+  prefixIcon: Icon(
+    Icons.search,
+    color: Colors.black,
+  ),
+);
