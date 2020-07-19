@@ -30,6 +30,14 @@ const kInputFieldDecoration = InputDecoration(
       color: Colors.black,
     ),
   ),
+  enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.all(
+      Radius.circular(100.0),
+    ),
+    borderSide: BorderSide(
+      color: Colors.black,
+    ),
+  ),
   contentPadding: EdgeInsets.symmetric(
     vertical: 0,
   ),
