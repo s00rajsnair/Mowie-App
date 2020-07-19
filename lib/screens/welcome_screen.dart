@@ -78,6 +78,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     decoration: kInputFieldDecoration,
                     onChanged: (value) {
                       moviename = value;
+                      moviename = moviename.replaceAll(',', '%2C');
+                      print(moviename);
                     },
                   ),
                 ),
@@ -87,8 +89,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     width: 140,
                     child: Center(
                       child: Text(
-                        'Enter',
-                        style: TextStyle(color: Colors.white),
+                        'Search',
+                        style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
                     ),
                     decoration: BoxDecoration(
@@ -98,33 +100,30 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       ),
                     ),
                   ),
-                  onPressed: (moviename != '')
-                      ? () async {
-                          bool connectedToNetwork = await isConnected();
-                          if (connectedToNetwork) {
-                            var newMovieData = await getMovieData(moviename);
-                            if (newMovieData['Response'] == 'False') {
-                              displaySnackBar(
-                                  'Movie not found', context, _scaffoldKey);
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MovieScreen(
-                                    movieData: newMovieData,
-                                  ),
-                                ),
-                              );
-                            }
-                          } else {
-                            displaySnackBar(
-                                'Please check your internet connection',
-                                context,
-                                _scaffoldKey);
-                          }
-                        }
-                      : null,
-                )
+                  onPressed: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    bool connectedToNetwork = await isConnected();
+                    if (connectedToNetwork) {
+                      var newMovieData = await getMovieData(moviename);
+                      if (newMovieData['Response'] == 'False') {
+                        displaySnackBar(
+                            'Movie not found', context, _scaffoldKey);
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MovieScreen(
+                              movieData: newMovieData,
+                            ),
+                          ),
+                        );
+                      }
+                    } else {
+                      displaySnackBar('Please check your internet connection',
+                          context, _scaffoldKey);
+                    }
+                  },
+                ),
               ],
             ),
           )
