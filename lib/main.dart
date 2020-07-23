@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mowie/screens/search-screen.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/movie_screen.dart';
 
@@ -19,6 +20,7 @@ class MowieApp extends StatelessWidget {
       routes: {
         WelcomeScreen.id: (context) => WelcomeScreen(),
         MovieScreen.id: (context) => MovieScreen(),
+        SearchScreen.id: (context) => SearchScreen(),
       },
     );
   }

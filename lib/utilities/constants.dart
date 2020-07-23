@@ -22,34 +22,41 @@ const kMovieReviewDataStyle = TextStyle(
 );
 
 const kInputFieldDecoration = InputDecoration(
+  isDense: true,
   focusedBorder: OutlineInputBorder(
     borderRadius: BorderRadius.all(
-      Radius.circular(100.0),
+      Radius.circular(10.0),
     ),
     borderSide: BorderSide(
-      color: Colors.black,
+      color: Color(0xFFe5e5e5),
     ),
   ),
   enabledBorder: OutlineInputBorder(
     borderRadius: BorderRadius.all(
-      Radius.circular(100.0),
+      Radius.circular(10.0),
     ),
     borderSide: BorderSide(
-      color: Colors.black,
+      color: Color(0xFFe5e5e5),
     ),
   ),
-  contentPadding: EdgeInsets.symmetric(
-    vertical: 0,
-  ),
   hintText: 'Enter a movie name ...',
-  hintStyle: TextStyle(
-    color: Colors.black38,
-    fontSize: 15,
-  ),
   filled: true,
+//  fillColor: Color(0xFFe5e5e5),
   fillColor: Colors.white,
   prefixIcon: Icon(
     Icons.search,
     color: Colors.black,
+  ),
+);
+
+const kBlueBackgroundGradient = BoxDecoration(
+  gradient: LinearGradient(
+    colors: [
+      Color(0xFF009FFD),
+      Color(0xFF2A2A72),
+    ],
+    stops: [.3, 1],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
   ),
 );
