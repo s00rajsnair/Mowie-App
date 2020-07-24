@@ -6,6 +6,7 @@ import 'package:mowie/utilities/movie-suggestion-list.dart';
 import 'package:mowie/utilities/movie-suggestion.dart';
 import 'package:mowie/utilities/network-connection.dart';
 import 'package:mowie/widgets/movie-suggestion-list-widget.dart';
+import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   static String id = "search-screen.dart";
@@ -15,12 +16,12 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   String movieName = "";
-  var currentMovieData;
-  int searchItemCount;
   List<MovieSuggestion> movieResults = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key('search'),
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
@@ -45,21 +46,17 @@ class _SearchScreenState extends State<SearchScreen> {
                             var newMovieData =
                                 await getSuggestedMovieData(movieName);
                             if (newMovieData['Response'] == "True") {
-                              currentMovieData = newMovieData;
-                              searchItemCount =
-                                  await currentMovieData['Search'].length;
-                              print(searchItemCount);
                               movieResults.clear();
-                              for (int i = 0; i < searchItemCount; i++) {
+                              for (int i = 0;
+                                  i < newMovieData['Search'].length;
+                                  i++) {
                                 MovieSuggestion tempMovie = MovieSuggestion(
-                                  posterUrl: currentMovieData['Search'][i]
+                                  posterUrl: newMovieData['Search'][i]
                                       ['Poster'],
-                                  movieName: currentMovieData['Search'][i]
-                                      ['Title'],
-                                  yearOfRelease: currentMovieData['Search'][i]
+                                  movieName: newMovieData['Search'][i]['Title'],
+                                  yearOfRelease: newMovieData['Search'][i]
                                       ['Year'],
-                                  imdbId: currentMovieData['Search'][i]
-                                      ['imdbID'],
+                                  imdbId: newMovieData['Search'][i]['imdbID'],
                                 );
                                 movieResults.add(tempMovie);
                               }

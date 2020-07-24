@@ -60,3 +60,9 @@ const kBlueBackgroundGradient = BoxDecoration(
     end: Alignment.bottomRight,
   ),
 );
+
+const kPlaceholderIcon = Icon(
+  Icons.local_movies,
+  size: 60,
+  color: Colors.grey,
+);

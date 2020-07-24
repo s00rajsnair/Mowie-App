@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mowie/screens/movie_screen.dart';
+import 'package:mowie/utilities/constants.dart';
 import 'package:mowie/utilities/movie-suggestion-list.dart';
-import 'package:mowie/utilities/movie-suggestion.dart';
 
 class MovieSuggestionListWidget extends StatefulWidget {
   MovieSuggestionList movieSuggestionList = MovieSuggestionList();
@@ -20,21 +19,28 @@ class _MovieSuggestionListWidgetState extends State<MovieSuggestionListWidget> {
         itemBuilder: (context, position) {
           return GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MovieScreen(
-                    movieData:
-                        widget.movieSuggestionList.suggestedMovieList[position],
+//              Navigator.push(
+//                context,
+//                MaterialPageRoute(
+//                  builder: (context) => MovieScreen(
+//                    movieData:
+//                        widget.movieSuggestionList.suggestedMovieList[position],
+//                  ),
+//                ),
+//              );
+            },
+            child: InkWell(
+              onTap: () {},
+              child: Container(
+                height: 100,
+                margin: EdgeInsets.symmetric(vertical: 5),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.15),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
                   ),
                 ),
-              );
-            },
-            child: Card(
-              color: Colors.grey.withOpacity(0.1),
-              elevation: 0,
-              child: Padding(
-                padding: EdgeInsets.all(10),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -42,20 +48,22 @@ class _MovieSuggestionListWidgetState extends State<MovieSuggestionListWidget> {
                     children: <Widget>[
                       Container(
                         child: ClipRRect(
+                          clipBehavior: Clip.hardEdge,
                           child: (widget.movieSuggestionList
                                       .suggestedMovieList[position].posterUrl !=
                                   "N/A")
                               ? Image.network(
                                   '${widget.movieSuggestionList.suggestedMovieList[position].posterUrl}',
-                                  scale: 5,
+                                  width: 60,
                                 )
-                              : Text('Poster Not Found'),
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                              : kPlaceholderIcon,
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
                         ),
                         margin: EdgeInsets.only(right: 15),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
                             '${widget.movieSuggestionList.suggestedMovieList[position].movieName}',
