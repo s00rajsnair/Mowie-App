@@ -68,7 +68,7 @@ class _MovieSuggestionListWidgetState extends State<MovieSuggestionListWidget> {
                           Text(
                             '${widget.movieSuggestionList.suggestedMovieList[position].movieName}',
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 18,
                               fontFamily: 'NotoSans',
                               fontWeight: FontWeight.bold,
                             ),

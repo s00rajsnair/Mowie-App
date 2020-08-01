@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mowie/screens/movie_screen.dart';
 import 'package:mowie/utilities/constants.dart';
 import 'package:mowie/utilities/fetch-moviedata.dart';
 import 'package:mowie/utilities/movie-suggestion-list.dart';
 import 'package:mowie/utilities/movie-suggestion.dart';
 import 'package:mowie/utilities/network-connection.dart';
 import 'package:mowie/widgets/movie-suggestion-list-widget.dart';
-import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   static String id = "search-screen.dart";
@@ -37,31 +35,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     decoration: kInputFieldDecoration,
                     onChanged: (value) {
                       setState(
-                        () async {
+                        () {
                           movieName = value;
                           movieName = movieName.replaceAll(',', '%2C');
                           print(movieName);
-                          bool connectedToNetwork = await isConnected();
-                          if (connectedToNetwork) {
-                            var newMovieData =
-                                await getSuggestedMovieData(movieName);
-                            if (newMovieData['Response'] == "True") {
-                              movieResults.clear();
-                              for (int i = 0;
-                                  i < newMovieData['Search'].length;
-                                  i++) {
-                                MovieSuggestion tempMovie = MovieSuggestion(
-                                  posterUrl: newMovieData['Search'][i]
-                                      ['Poster'],
-                                  movieName: newMovieData['Search'][i]['Title'],
-                                  yearOfRelease: newMovieData['Search'][i]
-                                      ['Year'],
-                                  imdbId: newMovieData['Search'][i]['imdbID'],
-                                );
-                                movieResults.add(tempMovie);
-                              }
-                            }
-                          }
+                          setDetails();
                         },
                       );
                     },
@@ -77,5 +55,25 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
     );
+  }
+
+  void setDetails() async {
+    bool connectedToNetwork = await isConnected();
+    if (connectedToNetwork) {
+      var newMovieData = await getSuggestedMovieData(movieName);
+      if (newMovieData['Response'] == "True") {
+        movieResults.clear();
+        for (int i = 0; i < newMovieData['Search'].length; i++) {
+          MovieSuggestion tempMovie = MovieSuggestion(
+            posterUrl: newMovieData['Search'][i]['Poster'],
+            movieName: newMovieData['Search'][i]['Title'],
+            yearOfRelease: newMovieData['Search'][i]['Year'],
+            imdbId: newMovieData['Search'][i]['imdbID'],
+          );
+          movieResults.add(tempMovie);
+        }
+        movieName = '';
+      }
+    }
   }
 }
