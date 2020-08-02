@@ -24,12 +24,12 @@ class _SearchScreenState extends State<SearchScreen> {
       body: SafeArea(
         child: Container(
           child: Container(
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: Column(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(bottom: 5),
+                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: TextField(
+                    cursorColor: Colors.black,
                     enabled: true,
                     autofocus: true,
                     decoration: kInputFieldDecoration,
@@ -38,7 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         () {
                           value = value.replaceAll(',', '%2C');
                           movieName = value;
-                          if (movieName == '') {
+                          if (movieName == '' || movieName == null) {
                             setState(() {
                               movieResults = [];
                             });
@@ -86,7 +86,8 @@ class _SearchScreenState extends State<SearchScreen> {
       }
     }
     setState(() {
-      movieName = movieName;
+      movieName += ' ';
+      movieName = movieName.trim();
     });
   }
 }
