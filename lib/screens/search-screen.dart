@@ -36,10 +36,16 @@ class _SearchScreenState extends State<SearchScreen> {
                     onChanged: (value) {
                       setState(
                         () {
+                          value = value.replaceAll(',', '%2C');
                           movieName = value;
-                          movieName = movieName.replaceAll(',', '%2C');
-                          print(movieName);
-                          setDetails();
+                          if (movieName == '') {
+                            setState(() {
+                              movieResults = [];
+                            });
+                          } else {
+                            print(movieName);
+                            setDetails();
+                          }
                         },
                       );
                     },
@@ -48,6 +54,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 MovieSuggestionListWidget(
                   movieSuggestionList:
                       MovieSuggestionList(suggestedMovieList: movieResults),
+                  moviename: movieName,
                 ),
               ],
             ),
@@ -60,20 +67,26 @@ class _SearchScreenState extends State<SearchScreen> {
   void setDetails() async {
     bool connectedToNetwork = await isConnected();
     if (connectedToNetwork) {
-      var newMovieData = await getSuggestedMovieData(movieName);
-      if (newMovieData['Response'] == "True") {
-        movieResults.clear();
-        for (int i = 0; i < newMovieData['Search'].length; i++) {
-          MovieSuggestion tempMovie = MovieSuggestion(
-            posterUrl: newMovieData['Search'][i]['Poster'],
-            movieName: newMovieData['Search'][i]['Title'],
-            yearOfRelease: newMovieData['Search'][i]['Year'],
-            imdbId: newMovieData['Search'][i]['imdbID'],
-          );
-          movieResults.add(tempMovie);
+      if (movieName != null) {
+        print(movieName);
+        var newMovieData = await getSuggestedMovieData(movieName);
+        if (newMovieData['Response'] == "True") {
+          movieResults.clear();
+          for (int i = 0; i < newMovieData['Search'].length; i++) {
+            MovieSuggestion tempMovie = MovieSuggestion(
+              posterUrl: newMovieData['Search'][i]['Poster'],
+              movieName: newMovieData['Search'][i]['Title'],
+              yearOfRelease: newMovieData['Search'][i]['Year'],
+              imdbId: newMovieData['Search'][i]['imdbID'],
+            );
+            movieResults.add(tempMovie);
+            print(tempMovie.movieName);
+          }
         }
-        movieName = '';
       }
     }
+    setState(() {
+      movieName = movieName;
+    });
   }
 }

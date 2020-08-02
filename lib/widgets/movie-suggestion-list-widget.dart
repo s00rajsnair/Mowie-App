@@ -5,7 +5,8 @@ import 'package:mowie/utilities/movie-suggestion-list.dart';
 
 class MovieSuggestionListWidget extends StatefulWidget {
   MovieSuggestionList movieSuggestionList = MovieSuggestionList();
-  MovieSuggestionListWidget({this.movieSuggestionList});
+  String moviename;
+  MovieSuggestionListWidget({this.movieSuggestionList, this.moviename});
   @override
   _MovieSuggestionListWidgetState createState() =>
       _MovieSuggestionListWidgetState();
@@ -85,7 +86,10 @@ class _MovieSuggestionListWidgetState extends State<MovieSuggestionListWidget> {
             ),
           );
         },
-        itemCount: widget.movieSuggestionList.suggestedMovieList.length,
+        itemCount:
+            (widget.movieSuggestionList.suggestedMovieList.length == null)
+                ? 0
+                : widget.movieSuggestionList.suggestedMovieList.length,
       ),
     );
   }
