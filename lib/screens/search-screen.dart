@@ -5,6 +5,7 @@ import 'package:mowie/utilities/movie-suggestion-list.dart';
 import 'package:mowie/utilities/movie-suggestion.dart';
 import 'package:mowie/utilities/network-connection.dart';
 import 'package:mowie/widgets/movie-suggestion-list-widget.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SearchScreen extends StatefulWidget {
   static String id = "search-screen.dart";
@@ -13,7 +14,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  String movieName = "";
+  String movieName;
   List<MovieSuggestion> movieResults = [];
 
   @override
