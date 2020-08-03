@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mowie/screens/movie_screen.dart';
+import 'package:mowie/screens/movie-screen.dart';
 import 'package:mowie/screens/search-screen.dart';
 import 'package:mowie/utilities/constants.dart';
 import 'package:mowie/utilities/fetch-moviedata.dart';
@@ -8,7 +8,7 @@ import 'package:mowie/utilities/network-connection.dart';
 import 'package:mowie/widgets/snackbar.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  static String id = "welcome_screen.dart";
+  static String id = "welcome-screen";
 
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();

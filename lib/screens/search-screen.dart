@@ -8,7 +8,7 @@ import 'package:mowie/widgets/movie-suggestion-list-widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SearchScreen extends StatefulWidget {
-  static String id = "search-screen.dart";
+  static String id = "search-screen";
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }

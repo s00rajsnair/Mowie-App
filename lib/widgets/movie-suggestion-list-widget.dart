@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mowie/screens/movie-screen-loading.dart';
 import 'package:mowie/utilities/constants.dart';
 import 'package:mowie/utilities/fetch-moviedata.dart';
 import 'package:mowie/utilities/movie-suggestion-list.dart';
 
-import '../screens/movie_screen.dart';
+import '../screens/movie-screen.dart';
 
 class MovieSuggestionListWidget extends StatefulWidget {
   MovieSuggestionList movieSuggestionList = MovieSuggestionList();
@@ -24,13 +25,12 @@ class _MovieSuggestionListWidgetState extends State<MovieSuggestionListWidget> {
           return InkWell(
             onTap: () async {
               print("clicked $position");
-              var selectedMovieData = await getSelectedMovieData(widget
-                  .movieSuggestionList.suggestedMovieList[position].imdbId);
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MovieScreen(
-                    movieData: selectedMovieData,
+                  builder: (context) => MovieScreenLoading(
+                    imdbID: widget.movieSuggestionList
+                        .suggestedMovieList[position].imdbId,
                   ),
                 ),
               );

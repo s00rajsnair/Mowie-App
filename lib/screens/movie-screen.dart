@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mowie/screens/poster_screen.dart';
+import 'package:mowie/screens/poster-screen.dart';
 import 'package:mowie/utilities/constants.dart';
-import 'package:mowie/widgets/movie_detail.dart';
-import 'package:mowie/widgets/review_cards.dart';
+import 'package:mowie/widgets/movie-detail.dart';
+import 'package:mowie/widgets/review-card.dart';
 
 class MovieScreen extends StatelessWidget {
-  static final String id = "movie_screen";
+  static final String id = "movie-screen";
   final movieData;
   List<dynamic> reviewValues;
   bool gotImdbReview = false;
