@@ -21,6 +21,7 @@ class _MovieScreenLoadingState extends State<MovieScreenLoading> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0XFF383E56),
       body: Center(
         child: Container(
           height: 200,
@@ -31,10 +32,6 @@ class _MovieScreenLoadingState extends State<MovieScreenLoading> {
                   color: Colors.redAccent,
                   size: 60.0,
                 ),
-//                  child: CircularProgressIndicator(
-//                    strokeWidth: 5,
-//                    valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
-//                  ),
               ),
             ],
           ),

@@ -2,10 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mowie/screens/movie-screen-loading.dart';
 import 'package:mowie/utilities/constants.dart';
-import 'package:mowie/utilities/fetch-moviedata.dart';
 import 'package:mowie/utilities/movie-suggestion-list.dart';
-
-import '../screens/movie-screen.dart';
 
 class MovieSuggestionListWidget extends StatefulWidget {
   MovieSuggestionList movieSuggestionList = MovieSuggestionList();
@@ -22,69 +19,73 @@ class _MovieSuggestionListWidgetState extends State<MovieSuggestionListWidget> {
     return Expanded(
       child: ListView.builder(
         itemBuilder: (context, position) {
-          return InkWell(
-            onTap: () async {
-              print("clicked $position");
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MovieScreenLoading(
-                    imdbID: widget.movieSuggestionList
-                        .suggestedMovieList[position].imdbId,
-                  ),
-                ),
-              );
-            },
-            child: Container(
-              height: 100,
-              margin: EdgeInsets.symmetric(vertical: 1),
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                color: Color(0xFFececec),
+          return Container(
+            height: 100,
+            margin: EdgeInsets.only(bottom: 1),
+            decoration: BoxDecoration(
+              color: Color(0XFF383E56),
+              border: Border(
+                bottom: BorderSide(color: Colors.white, width: .3),
               ),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      child: ClipRRect(
-                        clipBehavior: Clip.hardEdge,
-                        child: (widget.movieSuggestionList
-                                    .suggestedMovieList[position].posterUrl !=
-                                "N/A")
-                            ? Image.network(
-                                '${widget.movieSuggestionList.suggestedMovieList[position].posterUrl}',
-                                width: 60,
-                              )
-                            : kPlaceholderIcon,
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                      ),
-                      margin: EdgeInsets.only(right: 15),
+            ),
+            child: FlatButton(
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MovieScreenLoading(
+                      imdbID: widget.movieSuggestionList
+                          .suggestedMovieList[position].imdbId,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Wrap(
-                          direction: Axis.vertical,
-                          children: <Widget>[
-                            Text(
-                              '${widget.movieSuggestionList.suggestedMovieList[position].movieName}',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: 'NotoSans',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              '${widget.movieSuggestionList.suggestedMovieList[position].yearOfRelease}',
-                            )
-                          ],
+                  ),
+                );
+              },
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        child: ClipRRect(
+                          clipBehavior: Clip.hardEdge,
+                          child: (widget.movieSuggestionList
+                                      .suggestedMovieList[position].posterUrl !=
+                                  "N/A")
+                              ? Image.network(
+                                  '${widget.movieSuggestionList.suggestedMovieList[position].posterUrl}',
+                                  width: 60,
+                                )
+                              : kPlaceholderIcon,
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
                         ),
-                      ],
-                    ),
-                  ],
+                        margin: EdgeInsets.only(right: 15),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Wrap(
+                            direction: Axis.vertical,
+                            children: <Widget>[
+                              Text(
+                                '${widget.movieSuggestionList.suggestedMovieList[position].movieName}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: 'NotoSans',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                '${widget.movieSuggestionList.suggestedMovieList[position].yearOfRelease}',
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

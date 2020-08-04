@@ -2,44 +2,45 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mowie/screens/poster-screen.dart';
 import 'package:mowie/utilities/constants.dart';
+import 'package:mowie/utilities/conversion.dart';
 import 'package:mowie/widgets/movie-detail.dart';
 import 'package:mowie/widgets/review-card.dart';
 
-class MovieScreen extends StatelessWidget {
+class MovieScreen extends StatefulWidget {
   static final String id = "movie-screen";
   final movieData;
-  List<dynamic> reviewValues;
-  bool gotImdbReview = false;
-  bool gotRottenTomatoesReview = false;
-  bool gotMetaCriticReview = false;
-  String imbdValue;
-  String rottenTomatoesValue;
-  String metaCriticValue;
 
   MovieScreen({this.movieData});
 
-  void checkWhetherReviewsExist() {
-    reviewValues = movieData['Ratings'];
-    print(reviewValues.length);
-    for (int i = 0; i < reviewValues.length; i++) {
-      if (reviewValues[i]['Source'] == 'Internet Movie Database') {
-        gotImdbReview = true;
-        imbdValue = reviewValues[i]['Value'];
-      } else if (reviewValues[i]['Source'] == 'Rotten Tomatoes') {
-        gotRottenTomatoesReview = true;
-        rottenTomatoesValue = reviewValues[i]['Value'];
-      } else if (reviewValues[i]['Source'] == 'Metacritic') {
-        gotMetaCriticReview = true;
-        metaCriticValue = reviewValues[i]['Value'];
-      }
-    }
+  @override
+  _MovieScreenState createState() => _MovieScreenState();
+}
+
+class _MovieScreenState extends State<MovieScreen> {
+  List<dynamic> reviewValues;
+
+  bool gotImdbReview = false;
+
+  bool gotRottenTomatoesReview = false;
+
+  bool gotMetaCriticReview = false;
+
+  String imbdValue;
+
+  String rottenTomatoesValue;
+
+  String metaCriticValue;
+  @override
+  void initState() {
+    super.initState();
+    widget.movieData['Runtime'] =
+        changeRuntimeFormat(widget.movieData['Runtime']);
+    checkWhetherReviewsExist();
   }
 
   @override
   Widget build(BuildContext context) {
-    checkWhetherReviewsExist();
     return Scaffold(
-      backgroundColor: Colors.grey,
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -48,23 +49,14 @@ class MovieScreen extends StatelessWidget {
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onPressed: () {
-                  if (movieData['Poster'] != 'N/A') {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PosterScreen(
-                          posterUrl: '${movieData['Poster']}',
-                        ),
-                      ),
-                    );
-                  }
+                  viewPoster();
                 },
                 padding: EdgeInsets.all(0),
                 child: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(
-                        '${movieData['Poster']}',
+                        '${widget.movieData['Poster']}',
                       ),
                       fit: BoxFit.cover,
                       colorFilter: ColorFilter.mode(
@@ -82,19 +74,10 @@ class MovieScreen extends StatelessWidget {
                   child: Center(
                     child: MaterialButton(
                       onPressed: () {
-                        if (movieData['Poster'] != 'N/A') {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PosterScreen(
-                                posterUrl: '${movieData['Poster']}',
-                              ),
-                            ),
-                          );
-                        }
+                        viewPoster();
                       },
                       child: Text(
-                        (movieData['Poster'] != 'N/A')
+                        (widget.movieData['Poster'] != 'N/A')
                             ? 'Tap to view'
                             : 'Sorry, no poster found',
                         style: TextStyle(
@@ -111,7 +94,7 @@ class MovieScreen extends StatelessWidget {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Color(0XFF383E56),
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(20),
                         topLeft: Radius.circular(30),
@@ -126,7 +109,7 @@ class MovieScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                '${movieData['Title']}',
+                                '${widget.movieData['Title']}',
                                 style: kMovieNameStyle,
                               ),
                               SizedBox(
@@ -136,36 +119,38 @@ class MovieScreen extends StatelessWidget {
                                 scrollDirection: Axis.horizontal,
                                 child: MovieDetailWidget(
                                   detailIcon: Icons.scatter_plot,
-                                  movieDetail: '${movieData['Genre']}',
+                                  movieDetail: '${widget.movieData['Genre']}',
                                 ),
                               ),
                               MovieDetailWidget(
                                 detailIcon: Icons.access_time,
-                                movieDetail: '${movieData['Runtime']}',
+                                movieDetail: '${widget.movieData['Runtime']}',
                               ),
                               MovieDetailWidget(
                                 detailIcon: Icons.date_range,
-                                movieDetail: '${movieData['Released']}',
+                                movieDetail: '${widget.movieData['Released']}',
                               ),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: MovieDetailWidget(
                                   detailIcon: Icons.language,
-                                  movieDetail: '${movieData['Language']}',
+                                  movieDetail:
+                                      '${widget.movieData['Language']}',
                                 ),
                               ),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: MovieDetailWidget(
                                   detailIcon: Icons.videocam,
-                                  movieDetail: '${movieData['Director']}',
+                                  movieDetail:
+                                      '${widget.movieData['Director']}',
                                 ),
                               ),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: MovieDetailWidget(
                                   detailIcon: Icons.person_outline,
-                                  movieDetail: '${movieData['Actors']}',
+                                  movieDetail: '${widget.movieData['Actors']}',
                                 ),
                               ),
                               SizedBox(
@@ -210,10 +195,11 @@ class MovieScreen extends StatelessWidget {
                             ),
                           ),
                           Visibility(
-                            visible:
-                                (movieData['Plot'] != 'N/A') ? true : false,
+                            visible: (widget.movieData['Plot'] != 'N/A')
+                                ? true
+                                : false,
                             child: Text(
-                              "${movieData['Plot']}",
+                              "${widget.movieData['Plot']}",
                               style: kMoviePlotStyle,
                               textAlign: TextAlign.center,
                             ),
@@ -221,9 +207,6 @@ class MovieScreen extends StatelessWidget {
 //                          SizedBox(
 //                            height: 20,
 //                          ),
-                          Divider(
-                            thickness: 1,
-                          ),
                         ],
                       ),
                     ),
@@ -235,5 +218,35 @@ class MovieScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void checkWhetherReviewsExist() {
+    reviewValues = widget.movieData['Ratings'];
+    print(reviewValues.length);
+    for (int i = 0; i < reviewValues.length; i++) {
+      if (reviewValues[i]['Source'] == 'Internet Movie Database') {
+        gotImdbReview = true;
+        imbdValue = reviewValues[i]['Value'];
+      } else if (reviewValues[i]['Source'] == 'Rotten Tomatoes') {
+        gotRottenTomatoesReview = true;
+        rottenTomatoesValue = reviewValues[i]['Value'];
+      } else if (reviewValues[i]['Source'] == 'Metacritic') {
+        gotMetaCriticReview = true;
+        metaCriticValue = reviewValues[i]['Value'];
+      }
+    }
+  }
+
+  void viewPoster() {
+    if (widget.movieData['Poster'] != 'N/A') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PosterScreen(
+            posterUrl: '${widget.movieData['Poster']}',
+          ),
+        ),
+      );
+    }
   }
 }

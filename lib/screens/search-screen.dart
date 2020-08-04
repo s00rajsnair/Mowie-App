@@ -21,44 +21,44 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: Key('search'),
-      resizeToAvoidBottomInset: false,
+      backgroundColor: Color(0XFF383E56),
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Container(
-          child: Container(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  child: TextField(
-                    cursorColor: Colors.black,
-                    enabled: true,
-                    autofocus: true,
-                    decoration: kInputFieldDecoration,
-                    onChanged: (value) {
-                      setState(
-                        () {
-                          value = value.replaceAll(',', '%2C');
-                          movieName = value;
-                          if (movieName == '' || movieName == null) {
-                            setState(() {
-                              movieResults = [];
-                            });
-                          } else {
-                            print(movieName);
-                            setDetails();
-                          }
-                        },
-                      );
-                    },
-                  ),
+          child: Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                child: TextField(
+                  cursorColor: Colors.white,
+                  enabled: true,
+                  autofocus: true,
+                  decoration: kInputFieldDecoration,
+                  onChanged: (value) {
+                    setState(
+                      () {
+                        value = value.replaceAll(',', '%2C');
+                        movieName = value;
+                        if (movieName == '' ||
+                            movieName == null ||
+                            value == null) {
+                          setState(() {
+                            movieResults = [];
+                          });
+                        } else {
+                          setDetails();
+                        }
+                      },
+                    );
+                  },
                 ),
-                MovieSuggestionListWidget(
-                  movieSuggestionList:
-                      MovieSuggestionList(suggestedMovieList: movieResults),
-                  moviename: movieName,
-                ),
-              ],
-            ),
+              ),
+              MovieSuggestionListWidget(
+                movieSuggestionList:
+                    MovieSuggestionList(suggestedMovieList: movieResults),
+                moviename: movieName,
+              ),
+            ],
           ),
         ),
       ),
@@ -69,7 +69,6 @@ class _SearchScreenState extends State<SearchScreen> {
     bool connectedToNetwork = await isConnected();
     if (connectedToNetwork) {
       if (movieName != null) {
-        print(movieName);
         var newMovieData = await getSuggestedMovieData(movieName);
         if (newMovieData['Response'] == "True") {
           movieResults.clear();
@@ -81,7 +80,6 @@ class _SearchScreenState extends State<SearchScreen> {
               imdbId: newMovieData['Search'][i]['imdbID'],
             );
             movieResults.add(tempMovie);
-            print(tempMovie.movieName);
           }
         }
       }

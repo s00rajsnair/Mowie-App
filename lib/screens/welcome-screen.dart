@@ -18,58 +18,56 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'mowie',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'SourceSansPro',
-                  shadows: [
-                    Shadow(
-                      offset: Offset(2, 2),
-                      blurRadius: 5.0,
-                      color: Color.fromARGB(50, 0, 0, 0),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 100,
-              ),
-              MaterialButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, SearchScreen.id);
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-//                    color: Colors.white.withOpacity(0.1),
+      backgroundColor: Color(0XFF383E56),
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'mowie',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 50,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'SourceSansPro',
+                shadows: [
+                  Shadow(
+                    offset: Offset(2, 2),
+                    blurRadius: 5.0,
+                    color: Color.fromARGB(50, 0, 0, 0),
                   ),
-                  child: Icon(
-                    Icons.arrow_forward,
-                    size: 30,
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 100,
+            ),
+            MaterialButton(
+              onPressed: () {
+                Navigator.pushNamed(context, SearchScreen.id);
+              },
+              child: Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  border: Border.all(
                     color: Colors.white,
+                    width: 1,
                   ),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(30),
+                  ),
+//                    color: Colors.white.withOpacity(0.1),
                 ),
-              )
-            ],
-          ),
+                child: Icon(
+                  Icons.arrow_forward,
+                  size: 30,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          ],
         ),
-        decoration: kBlueBackgroundGradient,
       ),
     );
   }
