@@ -14,88 +14,106 @@ class MovieSuggestionListWidget extends StatefulWidget {
 }
 
 class _MovieSuggestionListWidgetState extends State<MovieSuggestionListWidget> {
+  bool moviesFound = false;
   @override
   Widget build(BuildContext context) {
+    if (widget.movieSuggestionList.suggestedMovieList.length > 0)
+      moviesFound = true;
+    else
+      moviesFound = false;
     return Expanded(
-      child: ListView.builder(
-        itemBuilder: (context, position) {
-          return Container(
-            height: 100,
-            margin: EdgeInsets.only(bottom: 1),
-            decoration: BoxDecoration(
-              color: Color(0XFF383E56),
-              border: Border(
-                bottom: BorderSide(color: Colors.white, width: .3),
-              ),
-            ),
-            child: FlatButton(
-              onPressed: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MovieScreenLoading(
-                      imdbID: widget.movieSuggestionList
-                          .suggestedMovieList[position].imdbId,
+      child: (moviesFound)
+          ? ListView.builder(
+              itemBuilder: (context, position) {
+                return Container(
+                  height: 100,
+                  margin: EdgeInsets.only(bottom: 1),
+                  decoration: BoxDecoration(
+                    color: Color(0XFF383E56),
+                    border: Border(
+                      bottom: BorderSide(color: Colors.white, width: .3),
+                    ),
+                  ),
+                  child: FlatButton(
+                    onPressed: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MovieScreenLoading(
+                            imdbID: widget.movieSuggestionList
+                                .suggestedMovieList[position].imdbId,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              child: ClipRRect(
+                                clipBehavior: Clip.hardEdge,
+                                child: (widget
+                                            .movieSuggestionList
+                                            .suggestedMovieList[position]
+                                            .posterUrl !=
+                                        "N/A")
+                                    ? Image.network(
+                                        '${widget.movieSuggestionList.suggestedMovieList[position].posterUrl}',
+                                        width: 60,
+                                      )
+                                    : kPlaceholderIcon,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5)),
+                              ),
+                              margin: EdgeInsets.only(right: 15),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Wrap(
+                                  direction: Axis.vertical,
+                                  children: <Widget>[
+                                    Text(
+                                      '${widget.movieSuggestionList.suggestedMovieList[position].movieName}',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: 'NotoSans',
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${widget.movieSuggestionList.suggestedMovieList[position].yearOfRelease}',
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 );
               },
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        child: ClipRRect(
-                          clipBehavior: Clip.hardEdge,
-                          child: (widget.movieSuggestionList
-                                      .suggestedMovieList[position].posterUrl !=
-                                  "N/A")
-                              ? Image.network(
-                                  '${widget.movieSuggestionList.suggestedMovieList[position].posterUrl}',
-                                  width: 60,
-                                )
-                              : kPlaceholderIcon,
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                        margin: EdgeInsets.only(right: 15),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Wrap(
-                            direction: Axis.vertical,
-                            children: <Widget>[
-                              Text(
-                                '${widget.movieSuggestionList.suggestedMovieList[position].movieName}',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontFamily: 'NotoSans',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                '${widget.movieSuggestionList.suggestedMovieList[position].yearOfRelease}',
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+              itemCount:
+                  (widget.movieSuggestionList.suggestedMovieList.length == null)
+                      ? 0
+                      : widget.movieSuggestionList.suggestedMovieList.length,
+            )
+          : Center(
+              child: Text(
+              'No movie found',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 20,
+                fontFamily: 'NotoSans',
               ),
-            ),
-          );
-        },
-        itemCount:
-            (widget.movieSuggestionList.suggestedMovieList.length == null)
-                ? 0
-                : widget.movieSuggestionList.suggestedMovieList.length,
-      ),
+            )),
     );
   }
 }

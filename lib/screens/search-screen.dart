@@ -85,8 +85,8 @@ class _SearchScreenState extends State<SearchScreen> {
       }
     }
     setState(() {
-      movieName += ' ';
-      movieName = movieName.trim();
+      movieName = movieName;
+      movieResults = movieResults;
     });
   }
 }

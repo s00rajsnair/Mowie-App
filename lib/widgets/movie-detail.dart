@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mowie/utilities/constants.dart';
 
@@ -15,7 +16,7 @@ class MovieDetailWidget extends StatelessWidget {
             Icon(
               detailIcon,
               size: 20,
-              color: Colors.redAccent,
+              color: Color(0XFFDF0054),
             ),
             SizedBox(
               width: 5,
@@ -23,6 +24,7 @@ class MovieDetailWidget extends StatelessWidget {
             Text(
               '$movieDetail',
               style: kMovieDetailsStyle,
+              overflow: TextOverflow.fade,
             ),
           ],
         ),

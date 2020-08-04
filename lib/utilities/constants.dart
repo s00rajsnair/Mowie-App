@@ -7,10 +7,7 @@ const kMovieNameStyle = TextStyle(
 );
 
 const kMovieDetailsStyle = TextStyle(
-  color: Colors.grey,
-  fontWeight: FontWeight.bold,
-  fontSize: 15,
-);
+    fontWeight: FontWeight.bold, fontSize: 15, fontFamily: 'NotoSans');
 
 const kMoviePlotStyle = TextStyle(
     fontFamily: 'NotoSans', letterSpacing: .5, fontWeight: FontWeight.normal);

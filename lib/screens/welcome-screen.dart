@@ -43,8 +43,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             SizedBox(
               height: 100,
             ),
-            MaterialButton(
-              onPressed: () {
+            InkWell(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              onTap: () {
                 Navigator.pushNamed(context, SearchScreen.id);
               },
               child: Container(
