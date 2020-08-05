@@ -5,7 +5,6 @@ import 'package:mowie/utilities/movie-suggestion-list.dart';
 import 'package:mowie/utilities/movie-suggestion.dart';
 import 'package:mowie/utilities/network-connection.dart';
 import 'package:mowie/widgets/movie-suggestion-list-widget.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SearchScreen extends StatefulWidget {
   static String id = "search-screen";
@@ -16,10 +15,13 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   String movieName;
   List<MovieSuggestion> movieResults = [];
+  bool isMovieDataLoading = false;
+  bool networkConnected = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       key: Key('search'),
       backgroundColor: Color(0XFF383E56),
       resizeToAvoidBottomInset: true,
@@ -56,7 +58,9 @@ class _SearchScreenState extends State<SearchScreen> {
               MovieSuggestionListWidget(
                 movieSuggestionList:
                     MovieSuggestionList(suggestedMovieList: movieResults),
-                moviename: movieName,
+                movieName: movieName,
+                isLoading: isMovieDataLoading,
+                networkConnected: networkConnected,
               ),
             ],
           ),
@@ -66,10 +70,18 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void setDetails() async {
+    setState(() {
+      isMovieDataLoading = true;
+    });
     bool connectedToNetwork = await isConnected();
     if (connectedToNetwork) {
+      setState(() {
+        networkConnected = true;
+      });
       if (movieName != null) {
-        var newMovieData = await getSuggestedMovieData(movieName);
+        var newMovieData = await getSuggestedMovieData(
+          movieName.trim(),
+        );
         if (newMovieData['Response'] == "True") {
           movieResults.clear();
           for (int i = 0; i < newMovieData['Search'].length; i++) {
@@ -83,10 +95,14 @@ class _SearchScreenState extends State<SearchScreen> {
           }
         }
       }
+    } else {
+      setState(() {
+        networkConnected = false;
+      });
     }
     setState(() {
       movieName = movieName;
-      movieResults = movieResults;
+      isMovieDataLoading = false;
     });
   }
 }

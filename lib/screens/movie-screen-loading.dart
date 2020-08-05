@@ -28,9 +28,10 @@ class _MovieScreenLoadingState extends State<MovieScreenLoading> {
           child: Column(
             children: <Widget>[
               Expanded(
-                child: SpinKitFadingCircle(
+                child: SpinKitRipple(
                   color: Colors.redAccent,
-                  size: 60.0,
+                  size: 150.0,
+                  borderWidth: 10,
                 ),
               ),
             ],

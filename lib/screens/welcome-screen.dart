@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mowie/screens/movie-screen.dart';
 import 'package:mowie/screens/search-screen.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:mowie/utilities/constants.dart';
-import 'package:mowie/utilities/fetch-moviedata.dart';
-import 'package:mowie/utilities/network-connection.dart';
-import 'package:mowie/widgets/snackbar.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String id = "welcome-screen";
@@ -15,6 +12,7 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  final controller = PageController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,11 +20,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'mowie',
-              style: TextStyle(
+            SizedBox(
+              height: 300,
+            ),
+            TyperAnimatedTextKit(
+              speed: Duration(milliseconds: 200),
+              text: ['mowie'],
+              textStyle: TextStyle(
                 color: Colors.white,
                 fontSize: 50,
                 fontWeight: FontWeight.bold,
@@ -41,32 +42,33 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
             ),
             SizedBox(
-              height: 100,
+              height: 150,
             ),
-            InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              onTap: () {
-                Navigator.pushNamed(context, SearchScreen.id);
-              },
-              child: Container(
+            Container(
+                width: 150,
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(30),
-                  ),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                    border: Border.all(color: Colors.white)
 //                    color: Colors.white.withOpacity(0.1),
-                ),
-                child: Icon(
-                  Icons.arrow_forward,
-                  size: 30,
-                  color: Colors.white,
-                ),
-              ),
-            )
+                    ),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Swipe Left ',
+                        style: TextStyle(fontFamily: 'NotoSans', fontSize: 15),
+                      ),
+                      Icon(
+                        Icons.arrow_forward,
+                        size: 15,
+                      )
+                    ],
+                  ),
+                ))
           ],
         ),
       ),
