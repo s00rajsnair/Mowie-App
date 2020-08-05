@@ -79,10 +79,9 @@ class _MovieScreenState extends State<MovieScreen> {
                       child: Text(
                         (widget.movieData['Poster'] != 'N/A')
                             ? 'Tap to view'
-                            : 'Sorry, no poster found',
+                            : 'No poster available',
                         style: TextStyle(
                           color: Colors.white,
-                          fontFamily: 'SourceSansPro',
                           fontSize: 15,
                           fontWeight: FontWeight.w100,
                         ),

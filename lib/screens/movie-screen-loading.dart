@@ -29,7 +29,7 @@ class _MovieScreenLoadingState extends State<MovieScreenLoading> {
             children: <Widget>[
               Expanded(
                 child: SpinKitRipple(
-                  color: Colors.redAccent,
+                  color: Color(0XFFDF0054),
                   size: 150.0,
                   borderWidth: 10,
                 ),

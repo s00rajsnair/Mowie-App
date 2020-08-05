@@ -17,52 +17,94 @@ class _SearchScreenState extends State<SearchScreen> {
   List<MovieSuggestion> movieResults = [];
   bool isMovieDataLoading = false;
   bool networkConnected = true;
+  bool isUserTyping = false;
+  final myController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      key: Key('search'),
-      backgroundColor: Color(0XFF383E56),
-      resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: TextField(
-                  cursorColor: Colors.white,
-                  enabled: true,
-                  autofocus: true,
-                  decoration: kInputFieldDecoration,
-                  onChanged: (value) {
-                    setState(
-                      () {
-                        value = value.replaceAll(',', '%2C');
-                        movieName = value;
-                        if (movieName == '' ||
-                            movieName == null ||
-                            value == null) {
-                          setState(() {
-                            movieResults = [];
-                          });
-                        } else {
-                          setDetails();
-                        }
-                      },
-                    );
-                  },
+    return GestureDetector(
+      onHorizontalDragUpdate: (details) {
+        if (details.delta.dx > 0) {
+          FocusScope.of(context).unfocus();
+        }
+      },
+      child: Scaffold(
+        resizeToAvoidBottomPadding: false,
+        key: Key('search'),
+        backgroundColor: Color(0XFF383E56),
+        resizeToAvoidBottomInset: true,
+        body: SafeArea(
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  child: TextField(
+                    controller: myController,
+                    cursorColor: Colors.white,
+                    enabled: true,
+                    autofocus: true,
+                    decoration: kInputFieldDecoration.copyWith(
+                      suffix: Container(
+                        height: 19,
+                        child: Visibility(
+                          visible: isUserTyping,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                movieName = '';
+                                myController.text = '';
+                                movieResults = [];
+                                isUserTyping = false;
+                              });
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.2),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30),
+                                ),
+                              ),
+                              child: Icon(
+                                Icons.close,
+                                size: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      setState(
+                        () {
+                          isUserTyping = true;
+                          value = value.replaceAll(',', '%2C');
+                          movieName = value;
+                          if (movieName == '' ||
+                              movieName == null ||
+                              value == null) {
+                            setState(() {
+                              movieResults = [];
+                              isUserTyping = false;
+                            });
+                          } else {
+                            setDetails();
+                          }
+                        },
+                      );
+                    },
+                  ),
                 ),
-              ),
-              MovieSuggestionListWidget(
-                movieSuggestionList:
-                    MovieSuggestionList(suggestedMovieList: movieResults),
-                movieName: movieName,
-                isLoading: isMovieDataLoading,
-                networkConnected: networkConnected,
-              ),
-            ],
+                MovieSuggestionListWidget(
+                  movieSuggestionList:
+                      MovieSuggestionList(suggestedMovieList: movieResults),
+                  movieName: movieName,
+                  isLoading: isMovieDataLoading,
+                  networkConnected: networkConnected,
+                ),
+              ],
+            ),
           ),
         ),
       ),

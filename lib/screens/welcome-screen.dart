@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mowie/screens/search-screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:mowie/utilities/constants.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String id = "welcome-screen";
@@ -20,14 +18,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
               height: 300,
             ),
-            TyperAnimatedTextKit(
-              speed: Duration(milliseconds: 200),
-              text: ['mowie'],
-              textStyle: TextStyle(
+            Text(
+              'mowie',
+              style: TextStyle(
                 color: Colors.white,
                 fontSize: 50,
                 fontWeight: FontWeight.bold,
@@ -45,30 +43,40 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               height: 150,
             ),
             Container(
-                width: 150,
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    border: Border.all(color: Colors.white)
-//                    color: Colors.white.withOpacity(0.1),
-                    ),
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Swipe Left ',
-                        style: TextStyle(fontFamily: 'NotoSans', fontSize: 15),
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        size: 15,
-                      )
-                    ],
+              width: 150,
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
                   ),
-                ))
+                  border: Border.all(color: Colors.white)
+//                    color: Colors.white.withOpacity(0.1),
+                  ),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Swipe Left ',
+                      style: TextStyle(fontFamily: 'NotoSans', fontSize: 15),
+                    ),
+                    Icon(
+                      Icons.arrow_forward,
+                      size: 15,
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 150,
+            ),
+            Text(
+              'Made by Sooraj ',
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mowie/screens/landing-page.dart';
 import 'package:mowie/screens/movie-screen-loading.dart';
 import 'package:mowie/screens/search-screen.dart';
 import 'screens/welcome-screen.dart';
@@ -18,12 +19,13 @@ class MowieApp extends StatelessWidget {
     ]);
     return MaterialApp(
       theme: ThemeData.dark(),
-      initialRoute: WelcomeScreen.id,
+      initialRoute: LandingPage.id,
       routes: {
         WelcomeScreen.id: (context) => WelcomeScreen(),
         MovieScreen.id: (context) => MovieScreen(),
         SearchScreen.id: (context) => SearchScreen(),
         MovieScreenLoading.id: (context) => MovieScreenLoading(),
+        LandingPage.id: (context) => LandingPage(),
       },
     );
   }

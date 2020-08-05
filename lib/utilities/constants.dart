@@ -44,6 +44,7 @@ const kInputFieldDecoration = InputDecoration(
   prefixIcon: Icon(
     Icons.search,
     color: Colors.white,
+    size: 20,
   ),
 );
 
