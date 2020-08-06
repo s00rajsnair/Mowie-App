@@ -4,10 +4,10 @@ import 'package:http/http.dart' as http;
 
 Future getSuggestedMovieData(String movieName) async {
   try {
-    String url1;
+    String url;
     if (movieName != '') {
-      url1 = 'http://www.omdbapi.com/?apikey=be44b129&s=$movieName&page=1';
-      var response = await http.get(url1);
+      url = 'http://www.omdbapi.com/?apikey=be44b129&s=$movieName&page=1';
+      var response = await http.get(url);
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
       }

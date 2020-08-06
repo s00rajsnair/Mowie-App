@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mowie/screens/movie-screen.dart';
 import 'package:mowie/utilities/fetch-moviedata.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:mowie/utilities/network-connection.dart';
+import 'package:mowie/widgets/message.dart';
+import 'package:mowie/widgets/movie-suggestion-list-widget.dart';
 
 class MovieScreenLoading extends StatefulWidget {
   static String id = 'movie-screen-loading';
@@ -12,6 +15,7 @@ class MovieScreenLoading extends StatefulWidget {
 }
 
 class _MovieScreenLoadingState extends State<MovieScreenLoading> {
+  bool networkConnected = true;
   @override
   void initState() {
     super.initState();
@@ -28,11 +32,16 @@ class _MovieScreenLoadingState extends State<MovieScreenLoading> {
           child: Column(
             children: <Widget>[
               Expanded(
-                child: SpinKitRipple(
-                  color: Color(0XFFDF0054),
-                  size: 150.0,
-                  borderWidth: 10,
-                ),
+                child: (networkConnected)
+                    ? SpinKitRipple(
+                        color: Color(0XFFDF0054),
+                        size: 150.0,
+                        borderWidth: 10,
+                      )
+                    : Message(
+                        text:
+                            'Not connected to internet.\n Please check your connection.',
+                      ),
               ),
             ],
           ),
@@ -42,15 +51,25 @@ class _MovieScreenLoadingState extends State<MovieScreenLoading> {
   }
 
   void loadSelectedMovieData() async {
-    var selectedMovieData = await getSelectedMovieData(widget.imdbID);
-    Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MovieScreen(
-          movieData: selectedMovieData,
+    bool connectedToNetwork = await isConnected();
+    if (connectedToNetwork) {
+      var selectedMovieData = await getSelectedMovieData(widget.imdbID);
+      setState(() {
+        networkConnected = true;
+      });
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MovieScreen(
+            movieData: selectedMovieData,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      setState(() {
+        networkConnected = false;
+      });
+    }
   }
 }

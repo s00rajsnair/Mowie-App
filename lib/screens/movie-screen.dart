@@ -44,24 +44,22 @@ class _MovieScreenState extends State<MovieScreen> {
       body: SafeArea(
         child: Stack(
           children: <Widget>[
-            Expanded(
-              child: FlatButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onPressed: () {
-                  viewPoster();
-                },
-                padding: EdgeInsets.all(0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        '${widget.movieData['Poster']}',
-                      ),
-                      fit: BoxFit.cover,
-                      colorFilter: ColorFilter.mode(
-                          Colors.black.withOpacity(0.5), BlendMode.darken),
+            FlatButton(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onPressed: () {
+                viewPoster();
+              },
+              padding: EdgeInsets.all(0),
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      '${widget.movieData['Poster']}',
                     ),
+                    fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                        Colors.black.withOpacity(0.5), BlendMode.darken),
                   ),
                 ),
               ),
@@ -91,7 +89,6 @@ class _MovieScreenState extends State<MovieScreen> {
                 ),
                 Expanded(
                   child: Container(
-                    width: double.infinity,
                     decoration: BoxDecoration(
                       color: Color(0XFF383E56),
                       borderRadius: BorderRadius.only(

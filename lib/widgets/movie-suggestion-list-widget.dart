@@ -5,6 +5,8 @@ import 'package:mowie/utilities/constants.dart';
 import 'package:mowie/utilities/movie-suggestion-list.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'message.dart';
+
 class MovieSuggestionListWidget extends StatefulWidget {
   MovieSuggestionList movieSuggestionList = MovieSuggestionList();
   String movieName;
@@ -132,25 +134,6 @@ class _MovieSuggestionListWidgetState extends State<MovieSuggestionListWidget> {
               text:
                   'Not connected to internet.\n Please check your connection.',
             ),
-    );
-  }
-}
-
-class Message extends StatelessWidget {
-  final String text;
-  Message({this.text});
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        '$text',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: Colors.grey,
-          fontSize: 15,
-          fontFamily: 'NotoSans',
-        ),
-      ),
     );
   }
 }
